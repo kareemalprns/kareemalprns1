@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>متجر شحن</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            background-color: #F3F3F3;
+        }
+
+        /* تعريف حركة التدرج */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .top-menu, .footer {
+            background: linear-gradient(45deg, #1B2452, #244AFF, #1B2452);
+            background-size: 200% 200%;
+            animation: gradientAnimation 7s ease infinite;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .top-menu {
+            height: 80px;
+            line-height: 80px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            top: 0;
+            left: 0;
+        }
+
+        .footer {
+            padding: 5px 0;
+            font-size: 13px;
+            bottom: 0;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .status-bar {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            color: #1B2452;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            position: fixed;
+            top: 80px;
+            width: 100%;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 8px;
+            display: inline-block;
+        }
+
+        .payment-bar, .working-hours-bar {
+            transition: transform 0.3s ease-in-out;
+            position: fixed;
+            width: 100%;
+            z-index: 998;
+            text-align: center;
+            line-height: 40px;
+            height: 40px;
+        }
+
+        .payment-bar {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            top: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-weight: bold;
+        }
+
+        .working-hours-bar {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            top: 150px;
+            font-weight: bold;
+        }
+
+        .hidden {
+            transform: translateY(-100%);
+        }
+
+        .vodafone-cash {
+            color: red;
+        }
+
+        .orange-cash {
+            color: orange;
+        }
+
+        .etisalat-cash {
+            color: green;
+        }
+
+        .table-container {
+            width: 90%;
+            margin: 200px auto;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .price-table, .offer-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .price-table th, .price-table td, .offer-table th, .offer-table td {
+            border: 1px solid #1B2452;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .price-table th, .offer-table th {
+            background-color: #1B2452;
+            color: #FFFFFF;
+        }
+
+        .price-table td, .offer-table td {
+            background-color: #FFFFFF;
+            direction: rtl;
+        }
+
+        .price-table th, .price-table td {
+            width: 50%;
+        }
+
+        .price-table .price-col, .price-table .shd-col {
+            text-align: center;
+        }
+
+        .offer-table .discount {
+            color: red;
+            text-decoration: line-through;
+        }
+
+        .offer-table .validity {
+            background-color: #1B2452;
+            color: #FFFFFF;
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .whatsapp-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #25D366;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px auto;
+            width: fit-content;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #20c659;
+            transform: scale(1.05);
+        }
+
+        .whatsapp-btn img {
+            margin-left: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-menu">متجر شحن</div>
+
+    <!-- شريط الحالة -->
+    <div class="status-bar">
+        <span id="status-dot" class="status-dot"></span>
+        <span id="status-text">جاري التحقق من الحالة...</span>
+    </div>
+
+    <!-- شريط مواعيد العمل -->
+<div id="paymentBar" class="payment-bar">
+نعمل من 9:30 صباحًا إلى 11:30 مساء</span>
+</div>
+
+    <div class="table-container">
+        <table class="price-table">
+            <thead>
+                <tr>
+                    <th>السعر</th>
+                    <th>عدد الشدات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="price-col">25 جنيه</td><td class="shd-col">30 شده</td></tr>
+                <tr><td class="price-col">50 جنيه</td><td class="shd-col">60 شده</td></tr>
+                <tr><td class="price-col">100 جنيه</td><td class="shd-col">120 شده</td></tr>
+                <tr><td class="price-col">190 جنيه</td><td class="shd-col">270 شده</td></tr>
+                <tr><td class="price-col">220 جنيه</td><td class="shd-col">300 شده</td></tr>
+                <tr><td class="price-col">250 جنيه</td><td class="shd-col">360 شده</td></tr>
+                <tr><td class="price-col">495 جنيه</td><td class="shd-col">720 شده</td></tr>
+                <tr><td class="price-col">840 جنيه</td><td class="shd-col">1200 شده</td></tr>
+                <tr><td class="price-col">990 جنيه</td><td class="shd-col">1440 شده</td></tr>
+                <tr><td class="price-col">1370 جنيه</td><td class="shd-col">2000 شده</td></tr>
+                <tr><td class="price-col">2450 جنيه</td><td class="shd-col">4000 شده</td></tr>
+                <tr><td class="price-col">3700 جنيه</td><td class="shd-col">6000 شده</td></tr>
+                <tr><td class="price-col">4980 جنيه</td><td class="shd-col">8000 شده</td></tr>
+                <tr><td class="price-col">8950 جنيه</td><td class="shd-col">16000 شده</td></tr>
+                <tr><td class="price-col">17500 جنيه</td><td class="shd-col">32000 شده</td></tr>
+            </tbody>
+        </table>
+
+        <table class="offer-table">
+            <thead>
+                <tr>
+                    <th>العروض</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>اشتري 360 شده بسعر 225 جنيه بدل من <span class="discount">250 جنيه</span></td>
+                </tr>
+                <tr>
+                    <td>اشتري 1200 شده بسعر 795 جنيه بدل من <span class="discount">840 جنيه</span></td>
+                </tr>
+                <tr>
+                    <td>اشتري 1440 شده  وكسب 360 شده هديه 🎁<span class="discount"></span></td>
+                </tr>
+                <tr>
+                    <td class="validity">الـعـرض سـاري حـتـى يــوم 2024/9/20 </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- زر شراء -->
+        <a href="https://wa.me/+201552320486" class="whatsapp-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+            شراء
+        </a>
+    </div>
+
+    <!-- القائمة السفلية -->
+    <div class="footer">
+    جميع الحقوق محفوظة من كريم
+    </div>
+<script>
+    window.onload = function() {
+        const siteStatus = localStorage.getItem('siteStatus');
+        if (siteStatus === 'closed') {
+            document.body.innerHTML = '<h1 style="text-align:center; color:red;"></h1>';
+        }
+    }
+</script>
+    <script>
+        // تحديد حالة الاتصال بناءً على الوقت الحالي
+        const statusDot = document.getElementById("status-dot");
+        const statusText = document.getElementById("status-text");
+
+        function updateStatus() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinutes = now.getMinutes();
+
+            if ((currentHour > 9 || (currentHour === 9 && currentMinutes >= 30)) && (currentHour < 23 || (currentHour === 23 && currentMinutes <= 30))) {
+                statusDot.style.backgroundColor = "green";
+                statusText.innerText = "متصل الآن";
+            } else {
+                statusDot.style.backgroundColor = "red";
+                statusText.innerText = "غير متصل";
+            }
+        }
+
+        updateStatus();
+        setInterval(updateStatus, 60000); // تحديث كل دقيقة
+
+        // التحكم في ظهور وإخفاء شريط طرق الدفع ومواعيد العمل بناءً على التمرير
+        let lastScrollTop = 0;
+        const paymentBar = document.getElementById('paymentBar');
+        const workingHoursBar = document.getElementById('workingHoursBar');
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                // التمرير للأسفل
+                paymentBar.classList.add('hidden');
+                workingHoursBar.classList.add('hidden');
+            } else {
+                // التمرير للأعلى
+                if (scrollTop === 0) {
+                    paymentBar.classList.remove('hidden');
+                    workingHoursBar.classList.remove('hidden');
+                }
+            }
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+</html>
