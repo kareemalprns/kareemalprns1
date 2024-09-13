@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>متجر شحن</title>
+    <title>متجر كريم</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -149,6 +149,11 @@
             direction: rtl;
         }
 
+        /* تعديل الخلفية الموحدة لعدد الشدات والسعر */
+        .price-col, .shd-col {
+            background-color: #e0f7fa;
+        }
+
         .price-table th, .price-table td {
             width: 50%;
         }
@@ -201,7 +206,7 @@
     </style>
 </head>
 <body>
-    <div class="top-menu">متجر شحن</div>
+    <div class="top-menu">متجر بيع</div>
 
     <!-- شريط الحالة -->
     <div class="status-bar">
@@ -210,9 +215,9 @@
     </div>
 
     <!-- شريط مواعيد العمل -->
-<div id="paymentBar" class="payment-bar">
-نعمل من 9:30 صباحًا إلى 11:30 مساء</span>
-</div>
+    <div id="paymentBar" class="payment-bar">
+        نعمل من 9:30 صباحًا إلى 11:30 مساء
+    </div>
 
     <div class="table-container">
         <table class="price-table">
@@ -272,16 +277,9 @@
 
     <!-- القائمة السفلية -->
     <div class="footer">
-    جميع الحقوق محفوظة من كريم
+        جميع الحقوق محفوظة من كريم
     </div>
-<script>
-    window.onload = function() {
-        const siteStatus = localStorage.getItem('siteStatus');
-        if (siteStatus === 'closed') {
-            document.body.innerHTML = '<h1 style="text-align:center; color:red;"></h1>';
-        }
-    }
-</script>
+
     <script>
         // تحديد حالة الاتصال بناءً على الوقت الحالي
         const statusDot = document.getElementById("status-dot");
@@ -302,7 +300,7 @@
         }
 
         updateStatus();
-        setInterval(updateStatus, 60000); // تحديث كل دقيقة
+        setInterval(updateStatus, 60001); // تحديث كل دقيقة
 
         // التحكم في ظهور وإخفاء شريط طرق الدفع ومواعيد العمل بناءً على التمرير
         let lastScrollTop = 0;
